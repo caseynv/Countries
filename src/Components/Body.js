@@ -8,9 +8,11 @@ function Body(props) {
 
   const [selectedItem, setselectedItem] = useState("");
   const [selectedProps, setselectedProps] = useState([]);
+  const [selectedPropss, setselectedPropss] = useState([]);
+  const [selectedPropsss, setselectedPropsss] = useState([]);
   
   
-    console.log(selectedProps);
+    console.log(selectedPropsss);
 
 
   return (
@@ -23,6 +25,8 @@ function Body(props) {
               setModalIsOpen(true);
               setselectedItem(item1);
               setselectedProps(item1.languages);
+              setselectedPropss(item1.currencies);
+              setselectedPropsss(item1.borders);
             }}
           >
             <div className="country">
@@ -49,6 +53,8 @@ function Body(props) {
         isOpen={modalIsOpen}
         selectedItem={selectedItem}
         selectedProps={selectedProps}
+        selectedPropss={selectedPropss}
+        selectedPropsss={selectedPropsss}
         onRequestClose={() => setModalIsOpen(false)}
       >
         <div>
@@ -59,14 +65,21 @@ function Body(props) {
           <h4>{selectedItem.title}</h4>
           <p>Native Name: {selectedItem.nativeName}</p>
           <p>Top Level Domain: {selectedItem.topLevelDomain}</p>
-          <p>Borders: {selectedItem.borders}</p>
+
           <p>Population: {selectedItem.population}</p>
           <p>Region: {selectedItem.region}</p>
           <p>Sub Region: {selectedItem.subregion}</p>
           <p>Capital: {selectedItem.capital}</p>
           {selectedProps.map((itemm, id) => (
-          <p key={id}>{itemm.name}</p>
-
+            <p key={id}>{itemm.name}</p>
+          ))}
+          {selectedPropss.map((itemms, id) => (
+            <p key={id}>{itemms.name}</p>
+          ))}
+          {selectedPropsss.map((itemmss, id) => (
+            <span key={id}>
+              <button>{itemmss}</button>
+            </span>
           ))}
         </div>
       </Modal>
