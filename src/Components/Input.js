@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 
 
 import Body from "./Body";
@@ -6,23 +6,43 @@ import Body from "./Body";
 function Input() {
 
       const [items, setItems] = useState([]);
+      const [selectregion, setselectregion] = useState("");
+      const [selectname, setselectname] = useState("");
 
-      // Note: the empty deps array [] means
-      // this useEffect will run once
-      // similar to componentDidMount()
-      useEffect(() => {
-        fetch("https://restcountries.com/v2/all")
+
+      const handlechange = (event) => {
+        setselectregion(event.target.value)
+      }
+
+      const handlechangename = (event) => {
+        setselectname(event.target.value)
+      }
+
+      if(selectregion !== ""){
+        
+          fetch(`https://restcountries.com/v3.1/region/${selectregion}`)
+            .then((res) => res.json())
+            .then((result) => {
+              setItems(result);
+            });
+        ;
+      }
+      else if (selectname !== ""){
+        fetch(`https://restcountries.com/v3.1/name/${selectname}`)
+        .then((res) => res.json())
+            .then((result) => {
+              setItems(result);
+            });
+      }
+      else{
+      fetch("https://restcountries.com/v2/all")
           .then((res) => res.json())
           .then(
             (result) => {
               setItems(result);
               
-            }
-            // Note: it's important to handle errors here
-            // instead of a catch() block so that we don't swallow
-            // exceptions from actual bugs in components.
-          );
-    });
+            });
+    };
 
     
   return (
@@ -32,6 +52,7 @@ function Input() {
           <div className="form-group has-search">
             <span className="fa fa-search form-control-feedback"></span>
             <input
+            onChange={handlechangename}
               type="text"
               className="form-control"
               placeholder="Search for a country..."
@@ -39,38 +60,21 @@ function Input() {
           </div>
         </div>
         <div className="input-right">
-          <div className="dropdown">
-            <button
-              className="btn btn-input btn-secondary dropdown-toggle"
-              type="button"
-              id="dropdownMenu2"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              Filter by Region
-            </button>
-            <div className="dropdown-menu" aria-labelledby="dropdownMenu2">
-              <button className="dropdown-item" type="button">
-                Africa
-              </button>
-              <button className="dropdown-item" type="button">
-                America
-              </button>
-              <button className="dropdown-item" type="button">
+          <div>
+            <select value={selectregion} onChange={handlechange}>
+              <option selected>Filter by Region</option>
+              <option value="Africa">Africa</option>
+              <option value="America">America</option>
+              <option value="Asia">
                 Asia
-              </button>
-              <button className="dropdown-item" type="button">
-                Europe
-              </button>
-              <button className="dropdown-item" type="button">
-                Oceania
-              </button>
-            </div>
+              </option>
+              <option value="Europe">Europe</option>
+              <option value="Oceania">Oceania</option>
+            </select>
           </div>
         </div>
       </div>
-      <Body items={items}/>
+      <Body items={items} />
     </>
   );
 }

@@ -13,6 +13,14 @@
   background-color: var(--dark-body-mode-background);
 }
 
+select{
+  padding: 0 6px;
+  width: 90%;
+  height: 40px;
+  background-color: var(--dark-header-mode-background);
+  color: var(--dark-mode-text)
+}
+
 .header{
   display: flex;
   align-items: center;
